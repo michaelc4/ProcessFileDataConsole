@@ -1,0 +1,19 @@
+//ArquivoDados.txt
+private struct StrFile
+{
+   public long Id;
+   public string Usuario;
+   public string Mensagem;
+   public string Data;       
+   public string Pais;
+   public string HashTags;
+   public char NewLine;
+}
+
+//Arquivo Indice
+private struct StrFileIndice
+{
+   public long Id;
+   public long Posicao;
+   public char NewLine;
+}

@@ -1,0 +1,11 @@
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\bin\Release\netcoreapp2.1\ProcessFileDataConsole.deps.json
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\bin\Release\netcoreapp2.1\ProcessFileDataConsole.runtimeconfig.json
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\bin\Release\netcoreapp2.1\ProcessFileDataConsole.runtimeconfig.dev.json
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\bin\Release\netcoreapp2.1\ProcessFileDataConsole.dll
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\bin\Release\netcoreapp2.1\ProcessFileDataConsole.pdb
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\obj\Release\netcoreapp2.1\ProcessFileDataConsole.csprojAssemblyReference.cache
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\obj\Release\netcoreapp2.1\ProcessFileDataConsole.csproj.CoreCompileInputs.cache
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\obj\Release\netcoreapp2.1\ProcessFileDataConsole.AssemblyInfoInputs.cache
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\obj\Release\netcoreapp2.1\ProcessFileDataConsole.AssemblyInfo.cs
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\obj\Release\netcoreapp2.1\ProcessFileDataConsole.dll
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\obj\Release\netcoreapp2.1\ProcessFileDataConsole.pdb

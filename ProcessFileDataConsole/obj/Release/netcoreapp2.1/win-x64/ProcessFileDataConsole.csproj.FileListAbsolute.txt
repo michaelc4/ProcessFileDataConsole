@@ -1,0 +1,14 @@
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\bin\Release\netcoreapp2.1\win-x64\ProcessFileDataConsole.deps.json
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\bin\Release\netcoreapp2.1\win-x64\ProcessFileDataConsole.runtimeconfig.json
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\bin\Release\netcoreapp2.1\win-x64\ProcessFileDataConsole.runtimeconfig.dev.json
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\bin\Release\netcoreapp2.1\win-x64\ProcessFileDataConsole.dll
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\bin\Release\netcoreapp2.1\win-x64\ProcessFileDataConsole.pdb
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\obj\Release\netcoreapp2.1\win-x64\ProcessFileDataConsole.csproj.CoreCompileInputs.cache
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\obj\Release\netcoreapp2.1\win-x64\ProcessFileDataConsole.AssemblyInfoInputs.cache
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\obj\Release\netcoreapp2.1\win-x64\ProcessFileDataConsole.AssemblyInfo.cs
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\obj\Release\netcoreapp2.1\win-x64\ProcessFileDataConsole.dll
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\obj\Release\netcoreapp2.1\win-x64\ProcessFileDataConsole.pdb
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\bin\Release\netcoreapp2.1\win-x64\hostpolicy.dll
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\bin\Release\netcoreapp2.1\win-x64\hostfxr.dll
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\bin\Release\netcoreapp2.1\win-x64\ProcessFileDataConsole.exe
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\ProcessFileDataConsole\obj\Release\netcoreapp2.1\win-x64\ProcessFileDataConsole.csprojAssemblyReference.cache
