@@ -113,7 +113,7 @@ namespace ProcessFileDataConsole
                 listaTweets.AddRange(tweets.BuscarTweets(consumerKey, consumerSecret, accessToken, accessTokenSecret, "#guitar"));
                 listaTweets.AddRange(tweets.BuscarTweets(consumerKey, consumerSecret, accessToken, accessTokenSecret, "#livemusic"));
                 listaTweets.AddRange(tweets.BuscarTweets(consumerKey, consumerSecret, accessToken, accessTokenSecret, "#liveshow"));
-                listaTweets.AddRange(tweets.BuscarTweets(consumerKey, consumerSecret, accessToken, accessTokenSecret, "#concert"));
+                //listaTweets.AddRange(tweets.BuscarTweets(consumerKey, consumerSecret, accessToken, accessTokenSecret, "#concert"));
                 listaTweets.AddRange(tweets.BuscarTweets(consumerKey, consumerSecret, accessToken, accessTokenSecret, "#rockshow"));
                 listaTweets.AddRange(tweets.BuscarTweets(consumerKey, consumerSecret, accessToken, accessTokenSecret, "#heavymetal"));
                 listaTweets.AddRange(tweets.BuscarTweets(consumerKey, consumerSecret, accessToken, accessTokenSecret, "#metal"));
@@ -129,7 +129,7 @@ namespace ProcessFileDataConsole
                 listaTweets.AddRange(tweets.BuscarTweets(consumerKey, consumerSecret, accessToken, accessTokenSecret, "#Punk"));
                 listaTweets.AddRange(tweets.BuscarTweets(consumerKey, consumerSecret, accessToken, accessTokenSecret, "#alternativerock"));
                 listaTweets.AddRange(tweets.BuscarTweets(consumerKey, consumerSecret, accessToken, accessTokenSecret, "#alternativemetal"));
-                listaTweets.AddRange(tweets.BuscarTweets(consumerKey, consumerSecret, accessToken, accessTokenSecret, "#music"));
+                //listaTweets.AddRange(tweets.BuscarTweets(consumerKey, consumerSecret, accessToken, accessTokenSecret, "#music"));
                 listaTweets.AddRange(tweets.BuscarTweets(consumerKey, consumerSecret, accessToken, accessTokenSecret, "#rock"));
                 GravarDados(listaTweets);
 
