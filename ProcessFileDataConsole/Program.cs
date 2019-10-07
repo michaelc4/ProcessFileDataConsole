@@ -14,8 +14,9 @@ namespace ProcessFileDataConsole
                 path = path.Replace("\\ProcessFileDataConsole\\bin", "");
                 string strNameFile = path + "\\ArquivoDados.txt";
                 string strNameFileIndice = path + "\\ArquivoIndice.txt";
+                string strNameIndiceHashtags = path + "\\ArquivoIndiceHashtags.txt";
                 Principal p = new Principal();
-                p.Start(strNameFile, strNameFileIndice);
+                p.Start(strNameFile, strNameFileIndice, strNameIndiceHashtags);
             },
             stackSize);
             th.Start();

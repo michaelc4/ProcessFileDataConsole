@@ -14,7 +14,7 @@ namespace ProcessFileDataConsole
                 long position = 0;
                 using (FileStream writeStream = new FileStream(filename, FileMode.Open))
                 {
-                    byte[] buf = getBytes(oStruct);
+                    byte[] buf = GetBytes(oStruct);
                     if (writeStream.Length > 0)
                     {
                         position = writeStream.Length + 1;
@@ -39,7 +39,7 @@ namespace ProcessFileDataConsole
                 writeStream.Seek(0, SeekOrigin.Begin);
                 if (writeStream.Length <= 0)
                 {
-                    byte[] buf = getBytes(oStruct);
+                    byte[] buf = GetBytes(oStruct);
                     writeStream.Write(buf);
                 }
                 else
@@ -64,7 +64,7 @@ namespace ProcessFileDataConsole
                         {
                             achou = true;
                             writeStream.Position -= 24;
-                            byte[] buf = getBytes(oStruct);
+                            byte[] buf = GetBytes(oStruct);
                             writeStream.Write(buf);
                             writeStream.Close();
                             writeStream.Dispose();
@@ -83,7 +83,7 @@ namespace ProcessFileDataConsole
 
                     if (!achou)
                     {
-                        byte[] buf = getBytes(oStruct);
+                        byte[] buf = GetBytes(oStruct);
                         writeStream.Position = writeStream.Length + 1;
                         writeStream.Write(buf);
                     }
@@ -99,7 +99,7 @@ namespace ProcessFileDataConsole
             }
         }
 
-        private byte[] getBytes(object str)
+        public byte[] GetBytes(object str)
         {
             try
             {
