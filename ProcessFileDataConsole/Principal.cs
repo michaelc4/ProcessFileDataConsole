@@ -68,6 +68,7 @@ namespace ProcessFileDataConsole
                 Console.WriteLine("Digite 5 Buscar dados pelo índice(Pesquisa Binária)");
                 Console.WriteLine("Digite 6 Gerar índice hashtags");
                 Console.WriteLine("Digite 7 Mostrar todos os índices HashTag");
+                Console.WriteLine("Digite 8 Buscar dados pela HashTag");
 
                 int entrada;
                 try
@@ -104,6 +105,9 @@ namespace ProcessFileDataConsole
                         break;
                     case 7:
                         GetAllIndiceHashStructureValue();
+                        break;
+                    case 8:
+                        GetPositionIndexDataByHashTag();
                         break;
                 }
             }
@@ -464,6 +468,69 @@ namespace ProcessFileDataConsole
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        private void GetPositionIndexDataByHashTag()
+        {
+            Console.Clear();
+
+            try
+            {
+                Console.WriteLine("Informe a HashTag");
+                string hashTagBusca = Console.ReadLine();
+
+                if (hashTagBusca.Trim() == "")
+                    throw new Exception("Erro");
+
+                List<FileStream> listaStream = new List<FileStream>();
+                listaStream.Add(new FileStream(strNameFile, FileMode.Open));
+                listaStream.Add(new FileStream(strNameIndiceHashtags, FileMode.Open));
+
+                while (listaStream[1].Position < listaStream[1].Length)
+                {
+                    if (listaStream[1].Position > 0)
+                        listaStream[1].Position += 1;
+
+                    BinarySearchAlgorithm bsa = new BinarySearchAlgorithm();
+                    StrFileIndiceHashtags oReturn = bsa.GetFileValue<StrFileIndiceHashtags>(listaStream[1]);
+                    if (oReturn.Hashtag.Contains(hashTagBusca.Trim()))
+                    {
+                        for (int i = 0; i < 1000; i++)
+                        {
+                            if (oReturn.Ids[i] == 0)
+                                break;
+
+                            StrFileIndice sfi = new StrFileIndice();
+                            if (bsa.BinarySearchById(oReturn.Ids[i], strNameFileIndice, ref sfi))
+                            {
+                                listaStream[0].Seek(sfi.Posicao, SeekOrigin.Begin);
+                                StrFile oReturnData = bsa.GetFileValue<StrFile>(listaStream[0]);
+                                Console.WriteLine(string.Format("Id: {0}", oReturnData.Id));
+                                Console.WriteLine(string.Format("Usuário: {0}", oReturnData.Usuario));
+                                Console.WriteLine(string.Format("Mensagem: {0}", oReturnData.Mensagem));
+                                Console.WriteLine(string.Format("Data: {0}", oReturnData.Data.Trim() + "9"));
+                                Console.WriteLine(string.Format("País: {0}", oReturnData.Pais));
+                                Console.WriteLine(string.Format("Hashtags: {0}", oReturnData.HashTags));
+                                Console.WriteLine("---------------------------------------------------------------------");
+                            }
+                        }
+                    }
+                }
+
+                listaStream[0].Close();
+                listaStream[1].Close();
+                listaStream[0].Dispose();
+                listaStream[1].Dispose();
+
+                Console.WriteLine("Pressione uma tecla para continuar.");
+                Console.ReadKey();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Dados inválidos.");
+                Console.WriteLine("Pressione uma tecla para continuar.");
+                Console.ReadKey();
             }
         }
     }
