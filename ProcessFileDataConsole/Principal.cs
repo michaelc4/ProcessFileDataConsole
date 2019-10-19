@@ -46,9 +46,16 @@ namespace ProcessFileDataConsole
             public char NewLine;
         }
 
+        private struct IndiceHashData
+        {
+            public int hash;
+            public List<long> enderecos;
+        }
+
         private string strNameFile = "";
         private string strNameFileIndice = "";
         private string strNameIndiceHashtags = "";
+        private List<IndiceHashData> listaHashData = new List<IndiceHashData>();
 
         public void Start(string strNameFile, string strNameFileIndice, string strNameIndiceHashtags)
         {
@@ -69,6 +76,8 @@ namespace ProcessFileDataConsole
                 Console.WriteLine("Digite 6 Gerar índice hashtags");
                 Console.WriteLine("Digite 7 Mostrar todos os índices HashTag");
                 Console.WriteLine("Digite 8 Buscar dados pela HashTag");
+                Console.WriteLine("Digite 9 Carregar indice hash por data");
+                Console.WriteLine("Digite 10 Buscar dados por data(índice hash)");
 
                 int entrada;
                 try
@@ -108,6 +117,12 @@ namespace ProcessFileDataConsole
                         break;
                     case 8:
                         GetPositionIndexDataByHashTag();
+                        break;
+                    case 9:
+                        CarregarIndiceHashData();
+                        break;
+                    case 10:
+                        GetdataIndexHash();
                         break;
                 }
             }
@@ -531,6 +546,118 @@ namespace ProcessFileDataConsole
                 Console.WriteLine("Dados inválidos.");
                 Console.WriteLine("Pressione uma tecla para continuar.");
                 Console.ReadKey();
+            }
+        }
+
+        private void CarregarIndiceHashData()
+        {
+            Console.Clear();
+            Console.WriteLine("Carregando. Aguarde...");
+            listaHashData.Clear();
+            for (int i = 0; i < 1000; i++)
+            {
+                IndiceHashData ihd = new IndiceHashData();
+                ihd.hash = i;
+                ihd.enderecos = new List<long>();
+                listaHashData.Add(ihd);
+            }
+
+            try
+            {
+                using (FileStream readStream = new FileStream(strNameFile, FileMode.Open))
+                {
+                    while (readStream.Position < readStream.Length)
+                    {
+                        if (readStream.Position > 0)
+                            readStream.Position += 1;
+                        long posicao = readStream.Position;
+
+                        BinarySearchAlgorithm bsa = new BinarySearchAlgorithm();
+                        StrFile oReturn = bsa.GetFileValue<StrFile>(readStream);
+                        string data = oReturn.Data.Trim() + "9";
+                        data = data.Substring(0, 2) + data.Substring(3, 2);
+                        int hashResult = int.Parse(data) % 1000;
+                        var ihd = listaHashData.Where(x => x.hash == hashResult).FirstOrDefault();
+                        ihd.enderecos.Add(posicao);
+                    }
+                }
+
+                Console.WriteLine("Pressione uma tecla para continuar.");
+                Console.ReadKey();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void GetdataIndexHash()
+        {
+            Console.Clear();
+            if (listaHashData.Count == 0)
+            {
+                Console.WriteLine("Lista de índices vazia");
+                Console.WriteLine("Pressione uma tecla para continuar.");
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.WriteLine("Informe a Data");
+                string dataInput = Console.ReadLine();
+
+                try
+                {
+                    DateTime dataBusca;
+                    if (DateTime.TryParse(dataInput, out dataBusca))
+                    {
+                        string data = dataBusca.ToString("ddMM");
+                        int hashResult = int.Parse(data) % 1000;
+                        var ihd = listaHashData.Where(x => x.hash == hashResult).FirstOrDefault();
+                        if (ihd.enderecos.Count == 0)
+                        {
+                            Console.WriteLine("Nenhum dado encontrado para a data informada.");
+                        }
+                        else
+                        {
+                            List<FileStream> listaStream = new List<FileStream>();
+                            listaStream.Add(new FileStream(strNameFile, FileMode.Open));
+
+                            BinarySearchAlgorithm bsa = new BinarySearchAlgorithm();
+
+                            foreach (long endereco in ihd.enderecos)
+                            {
+                                listaStream[0].Seek(endereco, SeekOrigin.Begin);
+                                StrFile oReturnData = bsa.GetFileValue<StrFile>(listaStream[0]);
+
+                                string dataP = dataBusca.ToString("dd/MM/yyyy");
+                                if (dataP == oReturnData.Data.Trim() + "9")
+                                {
+                                    Console.WriteLine(string.Format("Id: {0}", oReturnData.Id));
+                                    Console.WriteLine(string.Format("Usuário: {0}", oReturnData.Usuario));
+                                    Console.WriteLine(string.Format("Mensagem: {0}", oReturnData.Mensagem));
+                                    Console.WriteLine(string.Format("Data: {0}", oReturnData.Data.Trim() + "9"));
+                                    Console.WriteLine(string.Format("País: {0}", oReturnData.Pais));
+                                    Console.WriteLine(string.Format("Hashtags: {0}", oReturnData.HashTags));
+                                    Console.WriteLine("---------------------------------------------------------------------");
+                                }
+                            }
+
+                            listaStream[0].Close();
+                            listaStream[0].Dispose();
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Data inválida.");
+                    }
+
+                    Console.WriteLine("Pressione uma tecla para continuar.");
+                    Console.ReadKey();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
         }
     }
