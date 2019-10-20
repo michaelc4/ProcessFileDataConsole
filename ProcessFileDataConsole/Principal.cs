@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using Tweetinvi.Models;
 
 namespace ProcessFileDataConsole
@@ -56,6 +57,7 @@ namespace ProcessFileDataConsole
         private string strNameFileIndice = "";
         private string strNameIndiceHashtags = "";
         private List<IndiceHashData> listaHashData = new List<IndiceHashData>();
+        private static TrieNode root;
 
         public void Start(string strNameFile, string strNameFileIndice, string strNameIndiceHashtags)
         {
@@ -78,6 +80,8 @@ namespace ProcessFileDataConsole
                 Console.WriteLine("Digite 8 Buscar dados pela HashTag");
                 Console.WriteLine("Digite 9 Carregar indice hash por data");
                 Console.WriteLine("Digite 10 Buscar dados por data(índice hash)");
+                Console.WriteLine("Digite 11 Carregar índice trie por hashtag");
+                Console.WriteLine("Digite 12 Buscar dados por hashtag(índice trie)");
 
                 int entrada;
                 try
@@ -123,6 +127,12 @@ namespace ProcessFileDataConsole
                         break;
                     case 10:
                         GetdataIndexHash();
+                        break;
+                    case 11:
+                        CarregarIndiceHashtaTrie();
+                        break;
+                    case 12:
+                        GetdataIndexTrie();
                         break;
                 }
             }
@@ -658,6 +668,99 @@ namespace ProcessFileDataConsole
                 {
                     throw ex;
                 }
+            }
+        }
+
+        private void CarregarIndiceHashtaTrie()
+        {
+            Console.Clear();
+            Console.WriteLine("Carregando. Aguarde...");
+            root = new TrieNode();
+
+            try
+            {
+                using (FileStream readStream = new FileStream(strNameFile, FileMode.Open))
+                {
+                    while (readStream.Position < readStream.Length)
+                    {
+                        if (readStream.Position > 0)
+                            readStream.Position += 1;
+                        long posicao = readStream.Position;
+
+                        BinarySearchAlgorithm bsa = new BinarySearchAlgorithm();
+                        StrFile oReturn = bsa.GetFileValue<StrFile>(readStream);
+                        string[] hashtags = oReturn.HashTags.Split("#");
+                        foreach (string hashtag in hashtags)
+                        {
+                            if (hashtag.Trim() != "")
+                            {
+                                string hashtagAux = Regex.Replace(hashtag, "[^a-zA-Z]+", "");
+                                Trie.Add(hashtagAux.ToLower(), posicao, root);
+                            }
+                        }
+                    }
+                }
+
+                Console.WriteLine("Pressione uma tecla para continuar.");
+                Console.ReadKey();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void GetdataIndexTrie()
+        {
+            Console.Clear();
+            Console.WriteLine("Informe a hashtag");
+            string tagInput = Console.ReadLine();
+
+            try
+            {
+                tagInput = Regex.Replace(tagInput, "[^a-zA-Z]+", "");
+                tagInput = tagInput.ToLower();
+                List<long> enderecos;
+                if (Trie.Search(tagInput, root, out enderecos))
+                {
+                    if (enderecos.Count == 0)
+                    {
+                        Console.WriteLine("Nenhum dado encontrado para a hashtag informada.");
+                    }
+                    else
+                    {
+                        List<FileStream> listaStream = new List<FileStream>();
+                        listaStream.Add(new FileStream(strNameFile, FileMode.Open));
+
+                        BinarySearchAlgorithm bsa = new BinarySearchAlgorithm();
+                        foreach (long endereco in enderecos)
+                        {
+                            listaStream[0].Seek(endereco, SeekOrigin.Begin);
+                            StrFile oReturnData = bsa.GetFileValue<StrFile>(listaStream[0]);
+                            Console.WriteLine(string.Format("Id: {0}", oReturnData.Id));
+                            Console.WriteLine(string.Format("Usuário: {0}", oReturnData.Usuario));
+                            Console.WriteLine(string.Format("Mensagem: {0}", oReturnData.Mensagem));
+                            Console.WriteLine(string.Format("Data: {0}", oReturnData.Data.Trim() + "9"));
+                            Console.WriteLine(string.Format("País: {0}", oReturnData.Pais));
+                            Console.WriteLine(string.Format("Hashtags: {0}", oReturnData.HashTags));
+                            Console.WriteLine("---------------------------------------------------------------------");
+                        }
+
+                        listaStream[0].Close();
+                        listaStream[0].Dispose();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Hashta não encontrada.");
+                }
+
+                Console.WriteLine("Pressione uma tecla para continuar.");
+                Console.ReadKey();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }
