@@ -82,6 +82,7 @@ namespace ProcessFileDataConsole
                 Console.WriteLine("Digite 10 Buscar dados por data(índice hash)");
                 Console.WriteLine("Digite 11 Carregar índice trie por hashtag");
                 Console.WriteLine("Digite 12 Buscar dados por hashtag(índice trie)");
+                Console.WriteLine("Digite 13 Hipótese");
 
                 int entrada;
                 try
@@ -133,6 +134,9 @@ namespace ProcessFileDataConsole
                         break;
                     case 12:
                         GetdataIndexTrie();
+                        break;
+                    case 13:
+                        GetHipotese();
                         break;
                 }
             }
@@ -755,6 +759,46 @@ namespace ProcessFileDataConsole
                     Console.WriteLine("Hashta não encontrada.");
                 }
 
+                Console.WriteLine("Pressione uma tecla para continuar.");
+                Console.ReadKey();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void GetHipotese()
+        {
+            Console.Clear();
+            Console.WriteLine("Carregando. Aguarde...");
+
+            try
+            {
+                List<Banda> listaBandas = Bandas.getBandas();
+                using (FileStream readStream = new FileStream(strNameFile, FileMode.Open))
+                {
+                    while (readStream.Position < readStream.Length)
+                    {
+                        if (readStream.Position > 0)
+                            readStream.Position += 1;
+                        long posicao = readStream.Position;
+
+                        BinarySearchAlgorithm bsa = new BinarySearchAlgorithm();
+                        StrFile oReturn = bsa.GetFileValue<StrFile>(readStream);
+                        foreach (Banda b in listaBandas)
+                        {
+                            if (oReturn.Mensagem.ToLower().Contains(" " + b.Nome.ToLower() + " ") || oReturn.HashTags.ToLower().Contains(b.Nome.ToLower()))
+                            {
+                                b.Quantidade += 1;
+                            }
+                        }
+                    }
+                }
+
+                listaBandas = listaBandas.OrderByDescending(x => x.Quantidade).ToList();
+                Console.WriteLine("Qual a banda de rock mais popular do twitter?");
+                Console.WriteLine("Resposta: " + listaBandas[0].Nome);
                 Console.WriteLine("Pressione uma tecla para continuar.");
                 Console.ReadKey();
             }
