@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ProcessFileDataConsole
 {
@@ -40,7 +41,7 @@ namespace ProcessFileDataConsole
                 pCrawl = pCrawl.children[index];
             }
 
-            if (pCrawl != null && pCrawl.final)
+            if (pCrawl != null && pCrawl.final && !pCrawl.enderecos.Contains(address))
             {
                 pCrawl.enderecos.Add(address);
             }

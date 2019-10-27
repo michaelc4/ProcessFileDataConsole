@@ -1,0 +1,17 @@
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\UnitTestProjeto\bin\Debug\netcoreapp2.1\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\UnitTestProjeto\bin\Debug\netcoreapp2.1\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\UnitTestProjeto\bin\Debug\netcoreapp2.1\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\UnitTestProjeto\bin\Debug\netcoreapp2.1\UnitTestProjeto.deps.json
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\UnitTestProjeto\bin\Debug\netcoreapp2.1\UnitTestProjeto.runtimeconfig.json
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\UnitTestProjeto\bin\Debug\netcoreapp2.1\UnitTestProjeto.runtimeconfig.dev.json
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\UnitTestProjeto\bin\Debug\netcoreapp2.1\UnitTestProjeto.dll
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\UnitTestProjeto\bin\Debug\netcoreapp2.1\UnitTestProjeto.pdb
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\UnitTestProjeto\bin\Debug\netcoreapp2.1\ProcessFileDataConsole.dll
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\UnitTestProjeto\bin\Debug\netcoreapp2.1\ProcessFileDataConsole.pdb
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\UnitTestProjeto\obj\Debug\netcoreapp2.1\UnitTestProjeto.csprojAssemblyReference.cache
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\UnitTestProjeto\obj\Debug\netcoreapp2.1\UnitTestProjeto.csproj.CoreCompileInputs.cache
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\UnitTestProjeto\obj\Debug\netcoreapp2.1\UnitTestProjeto.AssemblyInfoInputs.cache
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\UnitTestProjeto\obj\Debug\netcoreapp2.1\UnitTestProjeto.AssemblyInfo.cs
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\UnitTestProjeto\obj\Debug\netcoreapp2.1\UnitTestProjeto.csproj.CopyComplete
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\UnitTestProjeto\obj\Debug\netcoreapp2.1\UnitTestProjeto.dll
+C:\Users\MyPC\Documents\GitHub\ProcessFileDataConsole\UnitTestProjeto\obj\Debug\netcoreapp2.1\UnitTestProjeto.pdb

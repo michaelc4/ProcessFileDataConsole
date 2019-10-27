@@ -12,7 +12,7 @@ namespace ProcessFileDataConsole
     public class Principal
     {
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-        private struct StrFile
+        public struct StrFile
         {
             public long Id;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 60)]
@@ -30,7 +30,7 @@ namespace ProcessFileDataConsole
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-        private struct StrFileIndice
+        public struct StrFileIndice
         {
             public long Id;
             public long Posicao;
@@ -38,7 +38,7 @@ namespace ProcessFileDataConsole
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-        private struct StrFileIndiceHashtags
+        public struct StrFileIndiceHashtags
         {
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 20)]
             public string Hashtag;
@@ -47,17 +47,17 @@ namespace ProcessFileDataConsole
             public char NewLine;
         }
 
-        private struct IndiceHashData
+        public struct IndiceHashData
         {
             public int hash;
             public List<long> enderecos;
         }
 
-        private string strNameFile = "";
-        private string strNameFileIndice = "";
-        private string strNameIndiceHashtags = "";
-        private List<IndiceHashData> listaHashData = new List<IndiceHashData>();
-        private static TrieNode root;
+        public string strNameFile = "";
+        public string strNameFileIndice = "";
+        public string strNameIndiceHashtags = "";
+        public List<IndiceHashData> listaHashData = new List<IndiceHashData>();
+        public static TrieNode root;
 
         public void Start(string strNameFile, string strNameFileIndice, string strNameIndiceHashtags)
         {
