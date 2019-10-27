@@ -199,7 +199,7 @@ namespace ProcessFileDataConsole
             }
         }
 
-        private void GravarDados(IEnumerable<ITweet> tweetsPar)
+        public void GravarDados(IEnumerable<ITweet> tweetsPar)
         {
             var tweets = tweetsPar.Distinct().OrderBy(x => x.Id);
             foreach (var item in tweets)
