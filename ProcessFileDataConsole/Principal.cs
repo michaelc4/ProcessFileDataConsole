@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Raven.Client.Documents;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -58,12 +59,22 @@ namespace ProcessFileDataConsole
         public string strNameIndiceHashtags = "";
         public List<IndiceHashData> listaHashData = new List<IndiceHashData>();
         public static TrieNode root;
+        private TwitterDao twitterDao;
 
         public void Start(string strNameFile, string strNameFileIndice, string strNameIndiceHashtags)
         {
             this.strNameFile = strNameFile;
             this.strNameFileIndice = strNameFileIndice;
             this.strNameIndiceHashtags = strNameIndiceHashtags;
+
+            var documentStoreTwitter = new DocumentStore
+            {
+                Urls = new[] { "http://localhost:8080" },
+                Database = "Database_Twitter"
+            };
+
+            documentStoreTwitter.Initialize();
+            twitterDao = new TwitterDao(documentStoreTwitter);
 
             int exit = -1;
             while (exit == -1)
@@ -82,7 +93,11 @@ namespace ProcessFileDataConsole
                 Console.WriteLine("Digite 10 Buscar dados por data(índice hash)");
                 Console.WriteLine("Digite 11 Carregar índice trie por hashtag");
                 Console.WriteLine("Digite 12 Buscar dados por hashtag(índice trie)");
-                Console.WriteLine("Digite 13 Hipótese");
+                Console.WriteLine("Digite 13 Hipótese(Arquivo)");
+                Console.WriteLine("Digite 14 Importar dados para RavenDB");
+                Console.WriteLine("Digite 15 Mostrar todo os valores RavenDB");
+                Console.WriteLine("Digite 16 Buscar dados pelo ID RavenDB");
+                Console.WriteLine("Digite 17 Hipótese(RavenDB)");
 
                 int entrada;
                 try
@@ -137,6 +152,18 @@ namespace ProcessFileDataConsole
                         break;
                     case 13:
                         GetHipotese();
+                        break;
+                    case 14:
+                        ImportDataRaven();
+                        break;
+                    case 15:
+                        GetAllDataRaven();
+                        break;
+                    case 16:
+                        GetDataRavenById();
+                        break;
+                    case 17:
+                        GetHipoteseRaven();
                         break;
                 }
             }
@@ -794,6 +821,144 @@ namespace ProcessFileDataConsole
                             }
                         }
                     }
+                }
+
+                listaBandas = listaBandas.OrderByDescending(x => x.Quantidade).ToList();
+                Console.WriteLine("Qual a banda de rock mais popular do twitter?");
+                Console.WriteLine("Resposta: " + listaBandas[0].Nome);
+                Console.WriteLine("Pressione uma tecla para continuar.");
+                Console.ReadKey();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void ImportDataRaven()
+        {
+            Console.Clear();
+            Console.WriteLine("Importando. Aguarde...");
+
+            List<TwitterModel> listaDados = twitterDao.GetList();
+            if (listaDados != null && listaDados.Count > 0)
+            {
+                foreach (TwitterModel tm in listaDados)
+                {
+                    twitterDao.Delete(tm);
+                }
+            }
+
+            Criptografia cript = new Criptografia();
+            cript.Key = "Teste";
+
+            using (FileStream readStream = new FileStream(strNameFile, FileMode.Open))
+            {
+                while (readStream.Position < readStream.Length)
+                {
+                    if (readStream.Position > 0)
+                        readStream.Position += 1;
+                    long posicao = readStream.Position;
+
+                    BinarySearchAlgorithm bsa = new BinarySearchAlgorithm();
+                    StrFile oReturn = bsa.GetFileValue<StrFile>(readStream);
+
+                    TwitterModel twModel = new TwitterModel();
+                    twModel.Id = oReturn.Id.ToString();
+                    twModel.Usuario = oReturn.Usuario;
+                    twModel.Mensagem = oReturn.Mensagem;
+                    twModel.Data = oReturn.Data.Trim() + "9";
+                    twModel.Pais = oReturn.Pais;
+
+                    List<string> listaHash = new List<string>();
+                    string[] hashTagsArray = oReturn.HashTags.Split("#");
+                    if (hashTagsArray != null && hashTagsArray.Length > 0)
+                    {
+                        for (int k = 0; k < hashTagsArray.Length; k++)
+                        {
+                            if (k != 0)
+                            {
+                                string hashStr = "#" + hashTagsArray[k].Trim();
+                                listaHash.Add(cript.Encrypt(hashStr));
+                            }
+                        }
+                    }
+                    twModel.HashTags = listaHash;
+                    twitterDao.Store(twModel);
+                }
+            }
+
+            Console.WriteLine("Pressione uma tecla para continuar.");
+            Console.ReadKey();
+        }
+
+        private void GetAllDataRaven()
+        {
+            Console.Clear();
+
+            Criptografia cript = new Criptografia();
+            cript.Key = "Teste";
+
+            List<TwitterModel> listaDados = twitterDao.GetList();
+            if (listaDados != null && listaDados.Count > 0)
+            {
+                foreach (TwitterModel tm in listaDados)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    foreach (string s in tm.HashTags)
+                    {
+                        sb.Append(cript.Decrypt(s));
+                    }
+
+                    Console.WriteLine(string.Format("ID: {0}|Usuário: {1}|Data: {2}|HashTags: {3}", tm.Id, tm.Usuario, tm.Data.Trim(), sb.ToString()));
+                }
+            }
+
+            Console.WriteLine("Pressione uma tecla para continuar.");
+            Console.ReadKey();
+        }
+
+        private void GetDataRavenById()
+        {
+            Console.Clear();
+
+            Console.WriteLine("Informe o ID");
+            string idBusca = Console.ReadLine();
+
+            Criptografia cript = new Criptografia();
+            cript.Key = "Teste";
+
+            TwitterModel tm = twitterDao.GetData(idBusca);
+            if (tm != null)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (string s in tm.HashTags)
+                {
+                    sb.Append(cript.Decrypt(s));
+                }
+
+                Console.WriteLine(string.Format("ID: {0}|Usuário: {1}|Data: {2}|HashTags: {3}", tm.Id, tm.Usuario, tm.Data.Trim(), sb.ToString()));
+            }
+            else
+            {
+                Console.WriteLine("ID não encontrado");
+            }
+
+            Console.WriteLine("Pressione uma tecla para continuar.");
+            Console.ReadKey();
+        }
+
+        private void GetHipoteseRaven()
+        {
+            Console.Clear();
+            Console.WriteLine("Carregando. Aguarde...");
+
+            try
+            {
+                List<Banda> listaBandas = Bandas.getBandas();
+                foreach (Banda b in listaBandas)
+                {
+                    b.Quantidade += twitterDao.GetBuscaBanda(b.Nome);
                 }
 
                 listaBandas = listaBandas.OrderByDescending(x => x.Quantidade).ToList();

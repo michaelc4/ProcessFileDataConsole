@@ -22,7 +22,6 @@ namespace ProcessFileDataConsole
             lista.Add(new Banda("Rush", 0));
             lista.Add(new Banda("Genesis", 0));
             lista.Add(new Banda("Prince", 0));
-            lista.Add(new Banda("Yes", 0));
             lista.Add(new Banda("Earth Wind and Fire", 0));
             lista.Add(new Banda("Bee Gees", 0));
             lista.Add(new Banda("Rolling Stones", 0));

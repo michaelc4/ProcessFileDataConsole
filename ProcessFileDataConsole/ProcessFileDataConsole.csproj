@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="RavenDB.Client" Version="4.2.5-patch-42026" />
     <PackageReference Include="TweetinviAPI" Version="4.0.2" />
   </ItemGroup>
 
