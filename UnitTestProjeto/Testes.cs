@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProcessFileDataConsole;
+using Raven.Client.Documents;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -119,6 +120,53 @@ namespace UnitTestProjeto
             int hashResult = int.Parse(data) % 1000;
             var ihd = listaHashData.Where(x => x.hash == hashResult).FirstOrDefault();
             CollectionAssert.AreEqual(ihd.enderecos, new List<long>() { 1000, 1200 });
+        }
+
+        [TestMethod]
+        public void MethodTestCriptografia()
+        {
+            Criptografia cpt = new Criptografia();
+            cpt.Key = "Teste";
+
+            string name = "Código criptografado";
+            string resultado = cpt.Decrypt(cpt.Encrypt(name));
+            Assert.AreEqual(name, resultado);
+        }
+
+        [TestMethod]
+        public void MethodTestRegistroDesempenho()
+        {
+            var documentStoreTwitter = new DocumentStore
+            {
+                Urls = new[] { "http://localhost:8080" },
+                Database = "Database_Twitter"
+            };
+
+            documentStoreTwitter.Initialize();
+            DesempenhoDao desempenhoDao = new DesempenhoDao(documentStoreTwitter);
+
+            var des = new DesempenhoModel();
+            des.NomeTeste = "Teste";
+            des.TempoExecucao = 0.25;
+            desempenhoDao.Store(des);
+
+            Assert.IsTrue(true);
+        }
+
+        [TestMethod]
+        public void MethodTestBuscaBanda()
+        {
+            var documentStoreTwitter = new DocumentStore
+            {
+                Urls = new[] { "http://localhost:8080" },
+                Database = "Database_Twitter"
+            };
+
+            documentStoreTwitter.Initialize();
+            TwitterDao twitterDao = new TwitterDao(documentStoreTwitter);
+
+            int num = twitterDao.GetBuscaBanda("Queen");
+            Assert.IsTrue(num > 0);
         }
     }
 }
