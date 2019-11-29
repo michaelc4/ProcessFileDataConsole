@@ -60,6 +60,7 @@ namespace ProcessFileDataConsole
         public List<IndiceHashData> listaHashData = new List<IndiceHashData>();
         public static TrieNode root;
         private TwitterDao twitterDao;
+        private DesempenhoDao desempenhoDao;
 
         public void Start(string strNameFile, string strNameFileIndice, string strNameIndiceHashtags)
         {
@@ -67,14 +68,15 @@ namespace ProcessFileDataConsole
             this.strNameFileIndice = strNameFileIndice;
             this.strNameIndiceHashtags = strNameIndiceHashtags;
 
-            var documentStoreTwitter = new DocumentStore
+            var documentStore = new DocumentStore
             {
                 Urls = new[] { "http://localhost:8080" },
                 Database = "Database_Twitter"
             };
 
-            documentStoreTwitter.Initialize();
-            twitterDao = new TwitterDao(documentStoreTwitter);
+            documentStore.Initialize();
+            twitterDao = new TwitterDao(documentStore);
+            desempenhoDao = new DesempenhoDao(documentStore);
 
             int exit = -1;
             while (exit == -1)
@@ -273,6 +275,8 @@ namespace ProcessFileDataConsole
 
         private void GetAllStructureValue()
         {
+            DateTime begin = DateTime.UtcNow;
+
             try
             {
                 using (FileStream readStream = new FileStream(strNameFile, FileMode.Open))
@@ -295,6 +299,14 @@ namespace ProcessFileDataConsole
             {
                 throw ex;
             }
+
+            double total = (DateTime.UtcNow - begin).TotalMilliseconds;
+
+            DesempenhoModel dm = new DesempenhoModel();
+            dm.NomeTeste = "Tempo todos dados(Arquivo)";
+            dm.TempoExecucao = total;
+            dm.Data = DateTime.Now;
+            desempenhoDao.Store(dm);
         }
 
         private void GetAllIndiceStructureValue()
@@ -364,6 +376,8 @@ namespace ProcessFileDataConsole
                 Console.WriteLine("Informe o ID");
                 long idBusca = long.Parse(Console.ReadLine());
 
+                DateTime begin = DateTime.UtcNow;
+
                 StrFileIndice sfi = new StrFileIndice();
                 BinarySearchAlgorithm bsa = new BinarySearchAlgorithm();
                 if (bsa.BinarySearchById(idBusca, strNameFileIndice, ref sfi))
@@ -381,6 +395,14 @@ namespace ProcessFileDataConsole
 
                     fsDados.Close();
                     fsDados.Dispose();
+
+                    double total = (DateTime.UtcNow - begin).TotalMilliseconds;
+
+                    DesempenhoModel dm = new DesempenhoModel();
+                    dm.NomeTeste = "Tempo dado índice(Arquivo)";
+                    dm.TempoExecucao = total;
+                    dm.Data = DateTime.Now;
+                    desempenhoDao.Store(dm);
                 }
                 else
                 {
@@ -539,6 +561,8 @@ namespace ProcessFileDataConsole
                 if (hashTagBusca.Trim() == "")
                     throw new Exception("Erro");
 
+                DateTime begin = DateTime.UtcNow;
+
                 List<FileStream> listaStream = new List<FileStream>();
                 listaStream.Add(new FileStream(strNameFile, FileMode.Open));
                 listaStream.Add(new FileStream(strNameIndiceHashtags, FileMode.Open));
@@ -578,6 +602,14 @@ namespace ProcessFileDataConsole
                 listaStream[1].Close();
                 listaStream[0].Dispose();
                 listaStream[1].Dispose();
+
+                double total = (DateTime.UtcNow - begin).TotalMilliseconds;
+
+                DesempenhoModel dm = new DesempenhoModel();
+                dm.NomeTeste = "Tempo dado hashtag(Arquivo)";
+                dm.TempoExecucao = total;
+                dm.Data = DateTime.Now;
+                desempenhoDao.Store(dm);
 
                 Console.WriteLine("Pressione uma tecla para continuar.");
                 Console.ReadKey();
@@ -651,6 +683,8 @@ namespace ProcessFileDataConsole
                     DateTime dataBusca;
                     if (DateTime.TryParse(dataInput, out dataBusca))
                     {
+                        DateTime begin = DateTime.UtcNow;
+
                         string data = dataBusca.ToString("ddMM");
                         int hashResult = int.Parse(data) % 1000;
                         var ihd = listaHashData.Where(x => x.hash == hashResult).FirstOrDefault();
@@ -686,6 +720,14 @@ namespace ProcessFileDataConsole
                             listaStream[0].Close();
                             listaStream[0].Dispose();
                         }
+
+                        double total = (DateTime.UtcNow - begin).TotalMilliseconds;
+
+                        DesempenhoModel dm = new DesempenhoModel();
+                        dm.NomeTeste = "Tempo dado data(Arquivo)";
+                        dm.TempoExecucao = total;
+                        dm.Data = DateTime.Now;
+                        desempenhoDao.Store(dm);
                     }
                     else
                     {
@@ -749,6 +791,8 @@ namespace ProcessFileDataConsole
 
             try
             {
+                DateTime begin = DateTime.UtcNow;
+
                 tagInput = Regex.Replace(tagInput, "[^a-zA-Z]+", "");
                 tagInput = tagInput.ToLower();
                 List<long> enderecos;
@@ -780,6 +824,14 @@ namespace ProcessFileDataConsole
                         listaStream[0].Close();
                         listaStream[0].Dispose();
                     }
+
+                    double total = (DateTime.UtcNow - begin).TotalMilliseconds;
+
+                    DesempenhoModel dm = new DesempenhoModel();
+                    dm.NomeTeste = "Tempo dado trie(Arquivo)";
+                    dm.TempoExecucao = total;
+                    dm.Data = DateTime.Now;
+                    desempenhoDao.Store(dm);
                 }
                 else
                 {
@@ -802,6 +854,8 @@ namespace ProcessFileDataConsole
 
             try
             {
+                DateTime begin = DateTime.UtcNow;
+
                 List<Banda> listaBandas = Bandas.getBandas();
                 using (FileStream readStream = new FileStream(strNameFile, FileMode.Open))
                 {
@@ -826,6 +880,15 @@ namespace ProcessFileDataConsole
                 listaBandas = listaBandas.OrderByDescending(x => x.Quantidade).ToList();
                 Console.WriteLine("Qual a banda de rock mais popular do twitter?");
                 Console.WriteLine("Resposta: " + listaBandas[0].Nome);
+
+                double total = (DateTime.UtcNow - begin).TotalMilliseconds;
+
+                DesempenhoModel dm = new DesempenhoModel();
+                dm.NomeTeste = "Tempo hipótese(Arquivo)";
+                dm.TempoExecucao = total;
+                dm.Data = DateTime.Now;
+                desempenhoDao.Store(dm);
+
                 Console.WriteLine("Pressione uma tecla para continuar.");
                 Console.ReadKey();
             }
@@ -899,6 +962,8 @@ namespace ProcessFileDataConsole
             Criptografia cript = new Criptografia();
             cript.Key = "Teste";
 
+            DateTime begin = DateTime.UtcNow;
+
             List<TwitterModel> listaDados = twitterDao.GetList();
             if (listaDados != null && listaDados.Count > 0)
             {
@@ -914,6 +979,14 @@ namespace ProcessFileDataConsole
                 }
             }
 
+            double total = (DateTime.UtcNow - begin).TotalMilliseconds;
+
+            DesempenhoModel dm = new DesempenhoModel();
+            dm.NomeTeste = "Tempo todos dados(BD)";
+            dm.TempoExecucao = total;
+            dm.Data = DateTime.Now;
+            desempenhoDao.Store(dm);
+
             Console.WriteLine("Pressione uma tecla para continuar.");
             Console.ReadKey();
         }
@@ -928,6 +1001,8 @@ namespace ProcessFileDataConsole
             Criptografia cript = new Criptografia();
             cript.Key = "Teste";
 
+            DateTime begin = DateTime.UtcNow;
+
             TwitterModel tm = twitterDao.GetData(idBusca);
             if (tm != null)
             {
@@ -938,6 +1013,14 @@ namespace ProcessFileDataConsole
                 }
 
                 Console.WriteLine(string.Format("ID: {0}|Usuário: {1}|Data: {2}|HashTags: {3}", tm.Id, tm.Usuario, tm.Data.Trim(), sb.ToString()));
+
+                double total = (DateTime.UtcNow - begin).TotalMilliseconds;
+
+                DesempenhoModel dm = new DesempenhoModel();
+                dm.NomeTeste = "Tempo índice(BD)";
+                dm.TempoExecucao = total;
+                dm.Data = DateTime.Now;
+                desempenhoDao.Store(dm);
             }
             else
             {
@@ -955,6 +1038,8 @@ namespace ProcessFileDataConsole
 
             try
             {
+                DateTime begin = DateTime.UtcNow;
+
                 List<Banda> listaBandas = Bandas.getBandas();
                 foreach (Banda b in listaBandas)
                 {
@@ -964,6 +1049,15 @@ namespace ProcessFileDataConsole
                 listaBandas = listaBandas.OrderByDescending(x => x.Quantidade).ToList();
                 Console.WriteLine("Qual a banda de rock mais popular do twitter?");
                 Console.WriteLine("Resposta: " + listaBandas[0].Nome);
+
+                double total = (DateTime.UtcNow - begin).TotalMilliseconds;
+
+                DesempenhoModel dm = new DesempenhoModel();
+                dm.NomeTeste = "Tempo hipótese(BD)";
+                dm.TempoExecucao = total;
+                dm.Data = DateTime.Now;
+                desempenhoDao.Store(dm);
+
                 Console.WriteLine("Pressione uma tecla para continuar.");
                 Console.ReadKey();
             }

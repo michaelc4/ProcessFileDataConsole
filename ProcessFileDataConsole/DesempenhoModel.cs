@@ -9,5 +9,6 @@ namespace ProcessFileDataConsole
         public string Id { get; set; }
         public string NomeTeste { get; set; }
         public double TempoExecucao { get; set; }
+        public DateTime Data { get; set; }
     }
 }

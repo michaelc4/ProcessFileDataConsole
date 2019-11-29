@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcessFileDataConsole", "ProcessFileDataConsole\ProcessFileDataConsole.csproj", "{BF031489-B4B1-4549-8BB7-595FF582EE7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProjeto", "UnitTestProjeto\UnitTestProjeto.csproj", "{D79BF3FF-1B84-4B99-A5B8-3D418868E922}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTestProjeto", "UnitTestProjeto\UnitTestProjeto.csproj", "{D79BF3FF-1B84-4B99-A5B8-3D418868E922}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graficos", "Graficos\Graficos.csproj", "{7D056154-2DCE-4625-A04E-A2F5B244E6BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{D79BF3FF-1B84-4B99-A5B8-3D418868E922}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D79BF3FF-1B84-4B99-A5B8-3D418868E922}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D79BF3FF-1B84-4B99-A5B8-3D418868E922}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D056154-2DCE-4625-A04E-A2F5B244E6BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D056154-2DCE-4625-A04E-A2F5B244E6BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D056154-2DCE-4625-A04E-A2F5B244E6BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D056154-2DCE-4625-A04E-A2F5B244E6BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
